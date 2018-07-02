@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link type="text/css" rel="stylesheet" href="/login/login.css" />
+    <script type="text/javascript" src="/login/login.js"></script>
+    <script type="text/javascript" src="/scripts/cryptico-master/cryptico.min.js"></script>
+    <script type="text/javascript" src="/scripts/nskd/nskd.js"></script>
+</head>
+<body>
+    <div>
+        <input type="hidden" id="p_sessionId" value="ed6cc241-348a-48d8-f0ab-6a4f2aed179e" />
+        <input type="hidden" id="p_rsaModule" value="1c5942a1-6196-418f-aeda-523a46a81727" />
+        <input type="hidden" id="p_rsaExponent" value="a0d9dbe6-6a6b-460c-b4e6-ede820e3b9cf" />
+    </div>
+    <div id="p_loginSect">
+        <p>
+            Вы не подключены.
+        </p>
+        <hr />
+        <p>
+            Используйте данные Вашей регистрации для подключения.
+        </p>
+        <table>
+            <tr>
+                <td>
+                    Имя:
+                </td>
+                <td>
+                    <input type="text" id="p_username" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Пароль:
+                </td>
+                <td>
+                    <input type="password" id="p_password" />
+                </td>
+            </tr>
+        </table>
+        <input type="button" value="Подключиться" onclick="login()" />
+        <input type="button" value="Выход" onclick="location.href='about:blank'" />
+        <input type="button" value="Предложить пароль" onclick="generatePassword()" />
+        <p>
+            <span id="p_gpw" style="font-weight: bold;"></span>
+        </p>
+        <hr />
+        <p>
+            Если у Вас ещё нет данных регистрации, то Вы будете подключены как новый пользователь
+            с правами гостя.
+        </p>
+        <p>
+            Для получения других прав - обратитесь к администратору системы.
+        </p>
+    </div>
+</body>
+</html>

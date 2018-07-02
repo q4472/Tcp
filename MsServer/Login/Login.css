@@ -1,0 +1,36 @@
+﻿*
+{
+    font-family: Consolas;
+    font-size: 12pt;
+}
+p
+{
+    margin: 8px;
+}
+hr
+{
+    line-height: 2px;
+    height: 2px;
+    background-color: black;
+}
+td
+{
+    padding: 2px;
+}
+input
+{
+    margin: 8px;
+    padding: 2px;
+    font-weight: bold;
+    width: 180px;
+}
+#p_loginSect
+{
+    background-color: #ffffcc;
+    padding: 4px;
+    width: 320px;
+}
+table tr td:first-child
+{
+    text-align: right;
+}
