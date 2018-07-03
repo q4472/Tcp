@@ -224,14 +224,21 @@ namespace Nskd.HttpLib
             {
                 Stream receiveStream = incomingResponse.GetResponseStream();
                 MemoryStream ms = new MemoryStream();
-                receiveStream.CopyTo(ms);
-                context.Response.ContentLength64 = ms.Length; // Восстанавливаем Content-Length
-                ms.Position = 0;
                 try
                 {
-                    ms.CopyTo(context.Response.OutputStream);
+                    receiveStream.CopyTo(ms);
                 }
-                catch (Exception ex) { Console.WriteLine("e>{0:yyyy-MM-dd HH:mm:ss} SendResponse(): {1} {2}", DateTime.Now , ex.Message, context.Response.RedirectLocation); }
+                catch (Exception e) { Console.WriteLine("e>{0:yyyy-MM-dd HH:mm:ss} SendResponse(): {1} {2}", DateTime.Now, e.Message, context.Response.RedirectLocation); }
+                context.Response.ContentLength64 = ms.Length; // Восстанавливаем Content-Length
+                if (ms.Length > 0)
+                {
+                    ms.Position = 0;
+                    try
+                    {
+                        ms.CopyTo(context.Response.OutputStream);
+                    }
+                    catch (Exception e) { Console.WriteLine("e>{0:yyyy-MM-dd HH:mm:ss} SendResponse(): {1} {2}", DateTime.Now, e.Message, context.Response.RedirectLocation); }
+                }
             }
             context.Response.OutputStream.Close();
         }

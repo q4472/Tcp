@@ -205,44 +205,51 @@ namespace Nskd.Proxy
                 csinf = AddressTranslations.siteInfsAgrs1;
             }
 
-
-            // Проверяем address, method, host, path.
-            if (AddressIsAcceptable(address) &&
-                MethodIsAcceptable(method) &&
-                HostIsAcceptable(host, csinf) &&
-                PathIsAcceptable(method, path))
+            try
             {
-                // Всё в порядке - на обработку.
-                //Console.WriteLine("d> На обработку.");
-                HttpWebResponse incomingResponse = null;
-                try
+                // Проверяем address, method, host, path.
+                if (AddressIsAcceptable(address) &&
+                    MethodIsAcceptable(method) &&
+                    HostIsAcceptable(host, csinf) &&
+                    PathIsAcceptable(method, path))
                 {
-                    incomingResponse = RedirectIncomingRequest(context, csinf);
+                    // Всё в порядке - на обработку.
+                    //Console.WriteLine("d> На обработку.");
+                    HttpWebResponse incomingResponse = null;
+                    try
+                    {
+                        incomingResponse = RedirectIncomingRequest(context, csinf);
+                    }
+                    catch (Exception)
+                    {
+                        server.SendErrorPage(context, HttpStatusCode.InternalServerError);
+                    }
+                    // Ответа от клиента может и не быть если запрос перехвачен и ответ пользователю
+                    // уже отправлен внутри RedirectIncomingRequest().
+                    if (incomingResponse != null)
+                    {
+                        try
+                        {
+                            //Console.WriteLine("OnIncomingRequest: Получен ответ");
+                            // То что получили от клиента пресылаем пользователю
+                            SendResponse(context, incomingResponse);
+                            // Освобождаем ресурсы.
+                            incomingResponse.Close();
+                        }
+                        catch (Exception e) { Db.Log.Write("OnIncomingRequest level 2:" + e.ToString(), address, method, host, port, path, query); }
+                    }
+                    //else { Console.WriteLine("OnIncomingRequest: Ответа нет"); }
                 }
-                catch (Exception)
+                else
                 {
-                    server.SendErrorPage(context, HttpStatusCode.InternalServerError);
+                    // Всё остальное оставляем без ответа.
+                    //Console.WriteLine("d> Без ответа.");
                 }
-                // Ответа от клиента может и не быть если запрос перехвачен и ответ пользователю
-                // уже отправлен внутри RedirectIncomingRequest().
-                if (incomingResponse != null)
-                {
-                    //Console.WriteLine("OnIncomingRequest: Получен ответ");
-                    // То что получили от клиента пресылаем пользователю
-                    SendResponse(context, incomingResponse);
-                    // Освобождаем ресурсы.
-                    incomingResponse.Close();
-                }
-                //else { Console.WriteLine("OnIncomingRequest: Ответа нет"); }
-            }
-            else
-            {
-                // Всё остальное оставляем без ответа.
-                //Console.WriteLine("d> Без ответа.");
-            }
 
-            // Закрываем соединение с пользователем и освобождаем ресурсы.
-            context.Response.Close();
+                // Закрываем соединение с пользователем и освобождаем ресурсы.
+                context.Response.Close();
+            }
+            catch (Exception e) { Db.Log.Write("OnIncomingRequest level 1:" + e.ToString(), address, method, host, port, path, query); }
         }
 
         private static Boolean AddressIsAcceptable(String remoteEndPointAddress)
