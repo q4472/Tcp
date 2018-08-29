@@ -34,7 +34,7 @@ namespace Nskd.Proxy
                 return ip;
             }
         }
-        public static String MainSqlServerDataSource = "192.168.135.77";
+        public static String MainSqlServerDataSource = "127.0.0.1";
         public static Int32 Port = 80;
 
         private static class AddressTranslations
@@ -144,8 +144,22 @@ namespace Nskd.Proxy
                 foreach (String arg in args)
                 {
                     if (arg == "-d14" || arg == "/d14") { MainSqlServerDataSource = "192.168.135.14"; }
+                    if (arg == "-d77" || arg == "/d77") { MainSqlServerDataSource = "192.168.135.77"; }
+                    if (arg == "-p80" || arg == "/p80") { Port = 80; }
+                    if (arg == "-p81" || arg == "/p81") { Port = 81; }
                     if (arg == "-p8080" || arg == "/p8080") { Port = 8080; }
+                    if (arg == "-p8181" || arg == "/p8080") { Port = 8181; }
                 }
+            }
+            if (Port == 81 || Port == 8181)
+            {
+                AddressTranslations.siteInfs = new SiteInf[] 
+                {
+                    new SiteInf("127.0.0.1", 11102, HostIPv4.ToString(), true, false, false),
+                    new SiteInf("127.0.0.1", 11102, "localhost", true, false, false),
+                    new SiteInf("127.0.0.1", 11102, "127.0.0.1", true, false, false),
+                    new SiteInf("127.0.0.1", 11102, "::1", true, false, false)
+                };
             }
             while (true)
             {
