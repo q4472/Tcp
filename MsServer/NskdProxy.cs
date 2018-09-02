@@ -153,7 +153,7 @@ namespace Nskd.Proxy
             }
             if (Port == 81 || Port == 8181)
             {
-                AddressTranslations.siteInfs = new SiteInf[] 
+                AddressTranslations.siteInfs = new SiteInf[]
                 {
                     new SiteInf("127.0.0.1", 11102, HostIPv4.ToString(), true, false, false),
                     new SiteInf("127.0.0.1", 11102, "localhost", true, false, false),
@@ -188,36 +188,56 @@ namespace Nskd.Proxy
 
             // подбираем набор сайтов для переадресации
             SiteInf[] csinf = AddressTranslations.siteInfs;
-            /*
-            if ((new Regex("(?i)^/Prep(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath))
+
+            // подбираем набор сайтов для переадресации
+            if (port == 80 || port == 8080)
             {
-                //Console.WriteLine(incomingRequest.HttpMethod + ", " + incomingRequest.Url.AbsolutePath);
-                //csinf = siteInfsPrep;
+                /*
+                if ((new Regex("(?i)^/Prep(/.*)?")).IsMatch(path))
+                {
+                    //Console.WriteLine(method + ", " + path);
+                    //csinf = siteInfsPrep;
+                }
+                */
+                if ((new Regex("(?i)^/Agrs(/.*)?")).IsMatch(path))
+                {
+                    //Console.WriteLine(method + ", " + path);
+                    csinf = AddressTranslations.siteInfsAgrs;
+                }
+                /*
+                if ((new Regex("(?i)^/Items(/.*)?")).IsMatch(path) ||
+                    (new Regex("(?i)^/Tn(/.*)?")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = AddressTranslations.siteInfsItems;
+                }
+                */
+                if ((new Regex("(?i)^/ImEx(/.*)?")).IsMatch(path))
+                {
+                    //Console.WriteLine(method + ", " + path);
+                    csinf = AddressTranslations.siteInfsImEx;
+                }
+                if ((new Regex("(?i)^/Agrs/F1(/.*)?")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = AddressTranslations.siteInfsAgrs1;
+                }
             }
-            */
-            if ((new Regex("(?i)^/Agrs(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath))
+            if (port == 81 || port == 8181)
             {
-                //Console.WriteLine(incomingRequest.HttpMethod + ", " + incomingRequest.Url.AbsolutePath);
-                csinf = AddressTranslations.siteInfsAgrs;
+                if ((new Regex("(?i)^/Reports/R1(/.*)?")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = new SiteInf[] {
+                        new SiteInf("127.0.0.1", 11206, HostIPv4.ToString(), true, false, false),
+                        new SiteInf("127.0.0.1", 11206, "localhost", true, false, false),
+                        new SiteInf("127.0.0.1", 11206, "127.0.0.1", true, false, false),
+                        new SiteInf("127.0.0.1", 11206, "::1", true, false, false)
+                    };
+                }
             }
-            /*
-            if ((new Regex("(?i)^/Items(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath) ||
-                (new Regex("(?i)^/Tn(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath))
-            {
-                Console.WriteLine(incomingRequest.HttpMethod + ", " + incomingRequest.Url.AbsolutePath);
-                csinf = AddressTranslations.siteInfsItems;
-            }
-            */
-            if ((new Regex("(?i)^/ImEx(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath))
-            {
-                //Console.WriteLine(incomingRequest.HttpMethod + ", " + incomingRequest.Url.AbsolutePath);
-                csinf = AddressTranslations.siteInfsImEx;
-            }
-            if ((new Regex("(?i)^/Agrs/F1(/.*)?")).IsMatch(incomingRequest.Url.AbsolutePath))
-            {
-                Console.WriteLine(incomingRequest.HttpMethod + ", " + incomingRequest.Url.AbsolutePath);
-                csinf = AddressTranslations.siteInfsAgrs1;
-            }
+
+
 
             try
             {
