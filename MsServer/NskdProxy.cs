@@ -225,7 +225,12 @@ namespace Nskd.Proxy
             }
             if (port == 81 || port == 8181)
             {
-                if ((new Regex("(?i)^/Reports/R1(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Agrs/F1(/.*)?")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = AddressTranslations.siteInfsAgrs1;
+                }
+                if ((new Regex("(?i)^/Reports(/.*)?")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = new SiteInf[] {

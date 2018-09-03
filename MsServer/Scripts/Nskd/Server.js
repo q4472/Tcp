@@ -61,12 +61,22 @@ Nskd.Server.CryptRequest = {
     }
 };
 
+
+
 Nskd.Server.JsonRequest = {
     post: function (url, data, done, fail) {
         var json = Nskd.Json.toString(data);
+
         //alert(json);
-        Nskd.Server.CryptRequest.post(url, json, _done, fail);
+
+        // Замена для Фарм-Сиб 2015-10-02 Соколов
+        //Nskd.Server.CryptRequest.post(url, json, _done, fail);
+        Nskd.Server.HttpRequest.post(url, json, _done, fail);
+
         function _done(text) {
+
+            //alert(text);
+
             if (text.charAt(0) == '{') {
                 var object = Nskd.Json.parse(text);
                 done(object);
@@ -75,7 +85,21 @@ Nskd.Server.JsonRequest = {
     }
 };
 
-Nskd.Server.gotoTheNewPage = function (data) {
+Nskd.Server.gotoTheNewPage = function (data, targetSelector) {
+    // это новое (для Фарм-сиб 2015-09-03)
+    var url = Nskd.Client.EnvVars.selectedMenuNodeUrl;
+    if (url && url != 'null') {
+        var sessionId = Nskd.Server.SessionId;
+        if (!sessionId) sessionId = '00000000-0000-0000-0000-000000000000';
+        var jqXHR = $.post(url, 'sessionId=' + sessionId, function (data) {
+            //alert(data);
+            $(targetSelector).html(data);
+            //$.validator.unobtrusive.parse(targetSelector);
+        });
+        jqXHR.fail(function () { alert(jqXHR.responseText); });
+    }
+    return;
+    // это пока обходим (для Фарм-сиб 2015-09-03)
     if (Nskd.Js.is(data, 'object')) {
         data.cmdType = 'GotoTheNewPage';
         data.envVars = Nskd.Client.EnvVars;
@@ -120,10 +144,10 @@ Nskd.Server.gotoTheNewPage = function (data) {
 
     function _showTheWaitMessage() {
         var body = document.body;
-        Nskd.Dom.empty(body);
+        $(body).empty();
         var div = document.createElement('div');
         body.appendChild(div);
-        div.appendChild(Nskd.Dom.create('#text', 'Запрос отправлен на сервер. Ожидается ответ. '));
+        $(div).text('Запрос отправлен на сервер. Ожидается ответ. ');
         var span = document.createElement('span');
         div.appendChild(span);
         var count = 0;
@@ -131,8 +155,8 @@ Nskd.Server.gotoTheNewPage = function (data) {
         return;
 
         function __showCount() {
-            Nskd.Dom.empty(span);
-            span.appendChild(Nskd.Dom.create('#text', count++));
+            $(span).empty();
+            $(span).text((count++).toString());
             if (count < 100) setTimeout(__showCount, 1000);
         }
     }
@@ -142,7 +166,7 @@ Nskd.Server.execute = function (data, done) {
     if (Nskd.Js.is(data, 'object')) {
         data.cmdType = 'Execute';
         data.envVars = Nskd.Client.EnvVars;
-        Nskd.Server.JsonRequest.post('/', data, _done, _fail);
+        Nskd.Server.JsonRequest.post('/Order/Api', data, _done, _fail);
     }
     function _done(pack) {
         if (Nskd.Js.is(pack, 'object')) {
@@ -169,20 +193,27 @@ Nskd.Server.execute = function (data, done) {
 Nskd.Server.downloadFile = function (id) {
     var body = document.body;
     var guid = Nskd.Js.guid();
-    var iframe = Nskd.Dom.create('iframe', { name: guid }, { display: 'none' }); {
-        iframe.onload = function () { body.removeChild(iframe); iframe = null; };
-        body.appendChild(iframe);
-    }
-    var form = Nskd.Dom.create(
-        'form',
-        { method: 'post', action: '/', target: guid, enctype: 'multipart/form-data' },
-        { display: 'none' }); {
-            form.onsubmit = function () { return false; };
-            form.appendChild(Nskd.Dom.create('input', { type: 'hidden', name: 'cmd', value: 'download' }));
-            form.appendChild(Nskd.Dom.create('input', { type: 'hidden', name: 'id', value: id }));
-            body.appendChild(form);
-        }
-    form.submit();
-    body.removeChild(form);
+
+    var iframe = $('<iframe name="' + guid + '" style="display: none">').appendTo(body);
+    iframe.load(function () {
+        body.removeChild(iframe[0]);
+        iframe = null;
+    });
+
+    var form = $('<form method="post" action="/" target="' + guid + '" enctype="multipart/form-data" style="display: none">').appendTo(body);
+    $('<input type="hidden" name="cmd" value="download">').appendTo(form);
+    $('<input type="hidden" name="id" value="' + id + '">').appendTo(form);
+    form.submit(function () { return false; });
+
+    form[0].submit();
+    body.removeChild(form[0]);
     form = null;
+};
+
+Nskd.Server.getSessionId = function () {
+    if ((typeof (Nskd) !== 'undefined') && (Nskd.Server) && (Nskd.Server.SessionId)) {
+        return Nskd.Server.SessionId;
+    } else {
+        return '00000000-0000-0000-0000-000000000000';
+    }
 };
