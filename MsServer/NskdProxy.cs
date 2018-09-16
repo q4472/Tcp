@@ -98,9 +98,9 @@ namespace Nskd.Proxy
 
         private static Regex[] truePathesForGet = new Regex[] {
             new Regex("(?i)^/$"),
-            new Regex("(?i)^/Login(/.*)?"),
-            new Regex("(?i)^/Scripts(/.*)?"),
-            new Regex("(?i)^/Content(/.*)?"),
+            new Regex("(?i)^/Login(/.*)?$"),
+            new Regex("(?i)^/Scripts(/.*)?$"),
+            new Regex("(?i)^/Content(/.*)?$"),
             new Regex("(?i)^/Areas/Deposits/Views/F0/Письмо.html$"),
             new Regex("(?i)^/Areas/Reports/Content/Reports.css$"),
             new Regex("(?i)^/bundles/jquery$"),
@@ -108,33 +108,33 @@ namespace Nskd.Proxy
             new Regex("(?i)^/bundles/jqueryfu$"),
             new Regex("(?i)^/bundles/nskd$"),
             new Regex("(?i)^/bundles/modernizr$"),
-            new Regex("(?i)^/Views/Shared/Imgs(/.*)?"),
+            new Regex("(?i)^/Views/Shared/Imgs(/.*)?$"),
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.leaf.png$"),
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.plus.png$"),
             new Regex("(?i)^/favicon.ico$"),
-            new Regex("(?i)^/test(/.*)?")
+            new Regex("(?i)^/test(/.*)?$")
         };
 
         private static Regex[] truePathesForPost = new Regex[] {
             new Regex("(?i)^/$"),
-            new Regex("(?i)^/Home(/.*)?"),
-            new Regex("(?i)^/Fs(/.*)?"),
-            new Regex("(?i)^/Dgv(/.*)?"),
+            new Regex("(?i)^/Home(/.*)?$"),
+            new Regex("(?i)^/Fs(/.*)?$"),
+            new Regex("(?i)^/Dgv(/.*)?$"),
             // Areas
-            new Regex("(?i)^/Agrs(/.*)?"),
-            new Regex("(?i)^/ImEx(/.*)?"),
-            new Regex("(?i)^/Env(/.*)?"),
-            new Regex("(?i)^/ExternalPages(/.*)?"),
-            new Regex("(?i)^/Deposits(/.*)?"),
-            new Regex("(?i)^/Docs(/.*)?"),
-            new Regex("(?i)^/Docs1c(/.*)?"),
-            new Regex("(?i)^/Items(/.*)?"),
-            new Regex("(?i)^/Order(/.*)?"),
-            new Regex("(?i)^/Prep(/.*)?"),
-            new Regex("(?i)^/Reports(/.*)?"),
-            new Regex("(?i)^/Settings(/.*)?"),
-            new Regex("(?i)^/Tn.*"),
-            new Regex("(?i)^/test(/.*)?")
+            new Regex("(?i)^/Agrs(/.*)?$"),
+            new Regex("(?i)^/ImEx(/.*)?$"),
+            new Regex("(?i)^/Env(/.*)?$"),
+            new Regex("(?i)^/ExternalPages(/.*)?$"),
+            new Regex("(?i)^/Deposits(/.*)?$"),
+            new Regex("(?i)^/Docs(/.*)?$"),
+            new Regex("(?i)^/Docs1c(/.*)?$"),
+            new Regex("(?i)^/Items(/.*)?$"),
+            new Regex("(?i)^/Order(/.*)?$"),
+            new Regex("(?i)^/Prep(/.*)?$"),
+            new Regex("(?i)^/Reports(/.*)?$"),
+            new Regex("(?i)^/Settings(/.*)?$"),
+            new Regex("(?i)^/Tn(/.*)?$"),
+            new Regex("(?i)^/test(/.*)?$")
         };
 
         public static void Main(string[] args)
@@ -148,7 +148,7 @@ namespace Nskd.Proxy
                     if (arg == "-p80" || arg == "/p80") { Port = 80; }
                     if (arg == "-p81" || arg == "/p81") { Port = 81; }
                     if (arg == "-p8080" || arg == "/p8080") { Port = 8080; }
-                    if (arg == "-p8181" || arg == "/p8080") { Port = 8181; }
+                    if (arg == "-p8181" || arg == "/p8181") { Port = 8181; }
                 }
             }
             if (Port == 81 || Port == 8181)
@@ -193,31 +193,31 @@ namespace Nskd.Proxy
             if (port == 80 || port == 8080)
             {
                 /*
-                if ((new Regex("(?i)^/Prep(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Prep(/.*)?$")).IsMatch(path))
                 {
                     //Console.WriteLine(method + ", " + path);
                     //csinf = siteInfsPrep;
                 }
                 */
-                if ((new Regex("(?i)^/Agrs(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Agrs(/.*)?$")).IsMatch(path))
                 {
                     //Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsAgrs;
                 }
                 /*
-                if ((new Regex("(?i)^/Items(/.*)?")).IsMatch(path) ||
-                    (new Regex("(?i)^/Tn(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Items(/.*)?$")).IsMatch(path) ||
+                    (new Regex("(?i)^/Tn(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsItems;
                 }
                 */
-                if ((new Regex("(?i)^/ImEx(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/ImEx(/.*)?$")).IsMatch(path))
                 {
                     //Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsImEx;
                 }
-                if ((new Regex("(?i)^/Agrs/F1(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Agrs/F1(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsAgrs1;
@@ -225,12 +225,12 @@ namespace Nskd.Proxy
             }
             if (port == 81 || port == 8181)
             {
-                if ((new Regex("(?i)^/Agrs/F1(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Agrs/F1(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsAgrs1;
                 }
-                if ((new Regex("(?i)^/Reports(/.*)?")).IsMatch(path))
+                if ((new Regex("(?i)^/Reports(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = new SiteInf[] {
