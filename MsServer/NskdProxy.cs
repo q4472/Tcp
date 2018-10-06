@@ -134,7 +134,7 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Reports(/.*)?$"),
             new Regex("(?i)^/Settings(/.*)?$"),
             new Regex("(?i)^/Tn(/.*)?$"),
-            new Regex("(?i)^/DeliveryShedule(/.*)?$"),
+            new Regex("(?i)^/DeliverySchedule(/.*)?$"),
             new Regex("(?i)^/test(/.*)?$")
         };
 
@@ -223,7 +223,7 @@ namespace Nskd.Proxy
                     Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsAgrs1;
                 }
-                if((new Regex("(?i)^/DeliveryShedule/F3(/.*)?$")).IsMatch(path))
+                if((new Regex("(?i)^/DeliverySchedule/F3(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = new SiteInf[] {
