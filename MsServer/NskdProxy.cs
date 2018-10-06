@@ -134,6 +134,7 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Reports(/.*)?$"),
             new Regex("(?i)^/Settings(/.*)?$"),
             new Regex("(?i)^/Tn(/.*)?$"),
+            new Regex("(?i)^/DeliveryShedule(/.*)?$"),
             new Regex("(?i)^/test(/.*)?$")
         };
 
@@ -221,6 +222,16 @@ namespace Nskd.Proxy
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = AddressTranslations.siteInfsAgrs1;
+                }
+                if((new Regex("(?i)^/DeliveryShedule/F3(/.*)?$")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = new SiteInf[] {
+                        new SiteInf("127.0.0.1", 11207, HostIPv4.ToString(), true, false, false),
+                        new SiteInf("127.0.0.1", 11207, "localhost", true, false, false),
+                        new SiteInf("127.0.0.1", 11207, "127.0.0.1", true, false, false),
+                        new SiteInf("127.0.0.1", 11207, "::1", true, false, false)
+                    };
                 }
             }
             if (port == 81 || port == 8181)
