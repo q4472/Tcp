@@ -233,6 +233,16 @@ namespace Nskd.Proxy
                         new SiteInf("127.0.0.1", 11207, "::1", true, false, false)
                     };
                 }
+                if ((new Regex("(?i)^/Settings/F0(/.*)?$")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = new SiteInf[] {
+                        new SiteInf("127.0.0.1", 11208, HostIPv4.ToString(), true, false, false),
+                        new SiteInf("127.0.0.1", 11208, "localhost", true, false, false),
+                        new SiteInf("127.0.0.1", 11208, "127.0.0.1", true, false, false),
+                        new SiteInf("127.0.0.1", 11208, "::1", true, false, false)
+                    };
+                }
             }
             if (port == 81 || port == 8181)
             {
