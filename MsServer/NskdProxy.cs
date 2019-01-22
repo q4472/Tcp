@@ -137,6 +137,7 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Settings(/.*)?$"),
             new Regex("(?i)^/AdminPages(/.*)?$"),
             new Regex("(?i)^/Mess(/.*)?$"),
+            new Regex("(?i)^/Supply(/.*)?$"),
             new Regex("(?i)^/test(/.*)?$")
         };
 
@@ -263,6 +264,16 @@ namespace Nskd.Proxy
                         new SiteInf("127.0.0.1", 11210, "localhost", true, false, false),
                         new SiteInf("127.0.0.1", 11210, "127.0.0.1", true, false, false),
                         new SiteInf("127.0.0.1", 11210, "::1", true, false, false)
+                    };
+                }
+                if ((new Regex("(?i)^/Sypply/F0(/.*)?$")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = new SiteInf[] {
+                        new SiteInf("127.0.0.1", 11211, HostIPv4.ToString(), true, false, false),
+                        new SiteInf("127.0.0.1", 11211, "localhost", true, false, false),
+                        new SiteInf("127.0.0.1", 11211, "127.0.0.1", true, false, false),
+                        new SiteInf("127.0.0.1", 11211, "::1", true, false, false)
                     };
                 }
             }
