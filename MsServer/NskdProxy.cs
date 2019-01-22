@@ -266,7 +266,7 @@ namespace Nskd.Proxy
                         new SiteInf("127.0.0.1", 11210, "::1", true, false, false)
                     };
                 }
-                if ((new Regex("(?i)^/Sypply/F0(/.*)?$")).IsMatch(path))
+                if ((new Regex("(?i)^/Supply/F0(/.*)?$")).IsMatch(path))
                 {
                     Console.WriteLine(method + ", " + path);
                     csinf = new SiteInf[] {
