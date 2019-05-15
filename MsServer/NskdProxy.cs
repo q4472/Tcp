@@ -112,7 +112,8 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.leaf.png$"),
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.plus.png$"),
             new Regex("(?i)^/favicon.ico$"),
-            new Regex("(?i)^/test(/.*)?$")
+            new Regex("(?i)^/test(/.*)?$"),
+            new Regex("(?i)^/supply/f0/filedownload/[0-9a-f]{8}")
         };
 
         private static Regex[] truePathesForPost = new Regex[] {
