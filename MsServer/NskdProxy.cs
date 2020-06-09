@@ -112,6 +112,7 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.leaf.png$"),
             new Regex("(?i)^/Views/Shared/Menu/Nskd.Menu.plus.png$"),
             new Regex("(?i)^/favicon.ico$"),
+            new Regex("(?i)^/wwwroot(/.*)?$"),
             new Regex("(?i)^/test(/.*)?$"),
             new Regex("(?i)^/supply/f0/filedownload/[0-9a-f]{8}")
         };
@@ -140,6 +141,7 @@ namespace Nskd.Proxy
             new Regex("(?i)^/Mess(/.*)?$"),
             new Regex("(?i)^/Supply(/.*)?$"),
             new Regex("(?i)^/MDVReports(/.*)?$"),
+            new Regex("(?i)^/rd(/.*)?$"),
             new Regex("(?i)^/test(/.*)?$")
         };
 
@@ -286,6 +288,16 @@ namespace Nskd.Proxy
                         new SiteInf("127.0.0.1", 11212, "localhost", true, false, false),
                         new SiteInf("127.0.0.1", 11212, "127.0.0.1", true, false, false),
                         new SiteInf("127.0.0.1", 11212, "::1", true, false, false)
+                    };
+                }
+                if ((new Regex("(?i)^/rd(/.*)?$")).IsMatch(path))
+                {
+                    Console.WriteLine(method + ", " + path);
+                    csinf = new SiteInf[] {
+                        new SiteInf("127.0.0.1", 11213, HostIPv4.ToString(), true, false, false),
+                        new SiteInf("127.0.0.1", 11213, "localhost", true, false, false),
+                        new SiteInf("127.0.0.1", 11213, "127.0.0.1", true, false, false),
+                        new SiteInf("127.0.0.1", 11213, "::1", true, false, false)
                     };
                 }
             }
